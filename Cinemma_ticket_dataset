@@ -1,0 +1,57 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+ticket=pd.read_csv("D:\datasets\cinemaTicket_Ref.csv")
+
+#data points or features
+#data is the shape of graphical object measured as numerically
+#features is a name of columns as film_code etc
+print(ticket.shape)
+
+#columns
+print(ticket.columns)
+
+ticket["film_code"].value_counts
+
+#perform univaraite
+#cdf(cumulative distribution function)
+counts,bin_edges=np.histogram(ticket["ticket_price"],bins=10,density=True)
+pdf=counts/sum(counts)
+print(pdf)
+print(bin_edges)
+#compute cdf
+cdf=np.cumsum(pdf)
+plt.plot(pdf)
+plt.plot(bin_edges)
+plt.grid()
+plt.show()
+
+#box plot
+sns.boxplot(x="month",y="day",data=ticket)
+plt.show()
+
+#violin plot
+sns.violinplot(x="month",y="day",data=ticket)
+plt.show()
+
+
+
+#mean,variance,standard deviation
+print("mean")
+print(np.mean(ticket))
+print("\nstd-dev")
+print(np.std(ticket))
+
+#median
+print("median")
+print(np.median(ticket["month"]))
+print(np.median(ticket["day"]))
+
+
+#scatter plot 
+sns.set_style('whitegrid')
+sns.FacetGrid(ticket,hue='day',data = ticket,size= 5).map(plt.scatter,'month','day').add_legend();
+plt.show()
+
